@@ -8,7 +8,7 @@ package com.mycompany.chatapp;
  *
  * @author Student
  */
-public class Validactor {
+public class Validator {
     
     public static boolean checkUsername(String username) {
         return username.contains("_") & username.length() <= 5;
