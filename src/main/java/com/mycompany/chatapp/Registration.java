@@ -28,7 +28,7 @@ public class Registration {
 
         // Get and validate username
         while (true) {
-            System.out.print("Enter username (3-15 letters/numbers): ");
+            System.out.print("Enter username (1-5 letters/numbers): ");
             String inputUsername = scanner.nextLine();
 
             if (Validator.checkUsername(inputUsername)) {
