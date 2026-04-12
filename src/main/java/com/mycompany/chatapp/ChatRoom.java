@@ -9,7 +9,7 @@ package com.mycompany.chatapp;
  * @author Student
  */
 public class ChatRoom {
-    private User user;
+    private final User user;
             
     public ChatRoom(User user) {
         this.user = user;
