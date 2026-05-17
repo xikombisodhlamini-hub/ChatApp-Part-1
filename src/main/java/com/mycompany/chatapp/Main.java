@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("=== Welcome to the Chat App ===");
+        System.out.println("=== Welcome to QuickChat ===");
 
         // ==========================
         // Step 1: Registration
@@ -28,56 +29,105 @@ public class Main {
 
         Login loginManager = new Login();
 
-        boolean loginSuccess = loginManager.authenticate(
-                inputUsername,
-                inputPassword,
-                reg.getUsername(),
-                reg.getPassword()
-        );
+        loginManager.register(registeredUser);
+
+        boolean loginSuccess = loginManager.loginUser(inputUsername, inputPassword);
+
+        System.out.println(loginManager.returnLoginStatus(loginSuccess));
 
         if (!loginSuccess) {
             System.out.println("Login failed. Exiting...");
             return;
         }
 
-        System.out.println("Login successful! Welcome " + inputUsername);
-
         // ==========================
-        // Step 3: Chat Room
+        // Step 3: QuickChat Menu
         // ==========================
-        ChatRoom chat = new ChatRoom(registeredUser);
-        chat.start();
+        int choice;
 
-        // ==========================
-        // Step 4: Chat Loop
-        // ==========================
-        System.out.println("\nType messages (type 'exit' to quit)");
+        do {
 
-        while (true) {
-            System.out.print(registeredUser.getName() + ": ");
-            String message = scanner.nextLine();
+            System.out.println("\n===== QUICKCHAT MENU =====");
+            System.out.println("1) Send Messages");
+            System.out.println("2) Show recently sent messages");
+            System.out.println("3) Quit");
 
-            if (message.equalsIgnoreCase("exit")) {
-                System.out.println("Goodbye!");
-                break;
+            System.out.print("Choose option: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("How many messages do you want to send? ");
+                    int numMessages = scanner.nextInt();
+                    scanner.nextLine();
+
+                    for (int i = 1; i <= numMessages; i++) {
+
+                        System.out.println("\n=== Message " + i + " ===");
+
+                        System.out.print("Enter recipient number (+27...): ");
+                        String recipient = scanner.nextLine();
+
+                        System.out.print("Enter your message: ");
+                        String messageText = scanner.nextLine();
+
+                        Message msg = new Message(i, recipient, messageText);
+
+                        // Check recipient
+                        if (!msg.checkRecipientCell()) {
+                            System.out.println("Cell phone number incorrectly formatted or does not contain international code.");
+                            continue;
+                        }
+
+                        // Check message length
+                        System.out.println(msg.checkMessageLength());
+
+                        if (msg.checkMessageLength().equals("Message ready to send.")) {
+
+                            System.out.println("Message Hash: " + msg.createMessageHash());
+
+                            System.out.println("\nChoose option:");
+                            System.out.println("1) Send Message");
+                            System.out.println("2) Store Message");
+                            System.out.println("3) Disregard Message");
+
+                            int messageChoice = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println(msg.sentMessage(messageChoice));
+
+                            // Display full message details
+                            System.out.println("\n===== MESSAGE DETAILS =====");
+                            System.out.println("Message Hash: " + msg.createMessageHash());
+                            System.out.println("Recipient: " + recipient);
+                            System.out.println("Message: " + messageText);
+                        }
+                    }
+
+                    break;
+
+                case 2:
+                    System.out.println("Coming Soon.");
+                    break;
+
+                case 3:
+                    System.out.println("Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option.");
             }
 
-            System.out.println("ChatBot: " + generateReply(message));
-        }
-    }
+        } while (choice != 3);
 
-    // Simple chatbot logic
-    public static String generateReply(String message) {
-        message = message.toLowerCase();
+        // ==========================
+        // Step 4: Total Messages
+        // ==========================
+        Message total = new Message(0, "+27000000000", "test");
 
-        if (message.contains("hi") || message.contains("hello")) {
-            return "Hey there 👋";
-        } else if (message.contains("how are you")) {
-            return "I'm good, you?";
-        } else if (message.contains("bye")) {
-            return "See you later!";
-        } else {
-            return "I hear you...";
-        }
+        System.out.println("\nTotal messages sent: " + total.returnTotalMessages());
     }
 }
