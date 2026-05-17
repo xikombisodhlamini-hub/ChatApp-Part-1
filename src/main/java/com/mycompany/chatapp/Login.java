@@ -18,10 +18,16 @@ public class Login {
             System.out.println("No registered user found.");
             return false;
         }
-        Object usename = null;
         
-        return user.username.equals(usename) &&
-                user.password.equals(password);
+        return user.username.trim().equals(username.trim()) &&
+                user.password.trim().equals(password.trim());
+       
+       
+        
+        
+        
+        
+        
     }
     // Return message
     public String returnLoginStatus(boolean status) {

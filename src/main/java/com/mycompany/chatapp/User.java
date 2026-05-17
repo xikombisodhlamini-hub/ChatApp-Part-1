@@ -18,11 +18,11 @@ public class User {
         this.phone = phone; 
     }
 
-    User(String inputUsername) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public User(String username) {
+        this.username = username;
     }
-
-    String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    public String getName() {
+        return username;
     }
 }
