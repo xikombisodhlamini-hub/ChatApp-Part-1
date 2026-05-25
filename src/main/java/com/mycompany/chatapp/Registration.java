@@ -91,7 +91,7 @@ public class Registration {
     }
 
     // Getters for username, password, phone if needed
-    public String getUsername() { 
+    public String getUsername() {
         return username;
     }
 
